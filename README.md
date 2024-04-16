@@ -1,1 +1,1 @@
-This is a simple rock-paper-scissors game to be played in the terminal.
+This is a simple rock-paper-scissors game that I made while working through The Odin Project.
