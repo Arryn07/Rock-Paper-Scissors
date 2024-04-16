@@ -1,91 +1,111 @@
 //determines what computer plays
+let computerChoice;
 function getComputerChoice() {
     let randomNumber = Math.floor(Math.random() * 3 + 1);
     if (randomNumber === 1) {
-      return "rock";
+      computerChoice = "rock";
     } else if (randomNumber === 2) {
-      return "paper";
+      computerChoice = "paper";
     } else {
-      return "scissors";
+      computerChoice = "scissors";
     }
+    return computerChoice;
   }
   
+
+  let tally = document.querySelector("#tally");
+  let result = document.querySelector("#result");
+
   //plays a single round
+  let outcome;
   function playRound(playerChoice, computerChoice) {
-    let outcome;
     switch (true) {
       case playerChoice === "rock" && computerChoice === "rock":
         outcome = "Tie";
+        result.innerText = "You selected " + playerChoice + ". The computer selected " + computerChoice + ". " + outcome;
         break;
       case playerChoice === "paper" && computerChoice === "paper":
         outcome = "Tie";
+        result.innerText = "You selected " + playerChoice + ". The computer selected " + computerChoice + ". " + outcome;
         break;
       case playerChoice === "scissors" && computerChoice === "scissors":
         outcome = "Tie";
+        result.innerText = "You selected " + playerChoice + ". The computer selected " + computerChoice + ". " + outcome;
         break;
       case playerChoice === "rock" && computerChoice === "paper":
         outcome = "You lose";
+        result.innerText = "You selected " + playerChoice + ". The computer selected " + computerChoice + ". " + outcome;
+        updateRound(outcome);
         break;
       case playerChoice === "paper" && computerChoice === "scissors":
         outcome = "You lose";
+        result.innerText = "You selected " + playerChoice + ". The computer selected " + computerChoice + ". " + outcome;
+        updateRound(outcome);
         break;
       case playerChoice === "scissors" && computerChoice === "rock":
         outcome = "You lose";
+        result.innerText = "You selected " + playerChoice + ". The computer selected " + computerChoice + ". " + outcome;
+        updateRound(outcome);
         break;
       case playerChoice === "rock" && computerChoice === "scissors":
         outcome = "You win";
+        result.innerText = "You selected " + playerChoice + ". The computer selected " + computerChoice + ". " + outcome;
+        updateRound(outcome);
         break;
       case playerChoice === "paper" && computerChoice === "rock":
         outcome = "You win";
+        result.innerText = "You selected " + playerChoice + ". The computer selected " + computerChoice + ". " + outcome;
+        updateRound(outcome);
         break;
       case playerChoice === "scissors" && computerChoice === "paper":
         outcome = "You win";
+        result.innerText = "You selected " + playerChoice + ". The computer selected " + computerChoice + ". " + outcome;
+        updateRound(outcome);
         break;
       default:
         return "Something went wrong";
     }
     return outcome;
   }
-  
-  //plays an entire 5-round game and determines the winner
-  function game() {
-    let roundWin = 0;
-    let roundLoss = 0;
-  
-    //plays the game
-    for (let i = 1; i <= 5; i++) {
-      let pChoice = prompt("Rock, paper, or scissors?").toLowerCase();
-      //let pChoice = "rock";
-      let cChoice = getComputerChoice();
-      let outcome = playRound(pChoice, cChoice);
-      if (outcome === "Tie") {
-        i--;
-        console.log("Tie. Please try again.");
-      } else {
-        console.log(
-          "Round #" +
-            i +
-            ": You played: " +
-            pChoice +
-            ". The computer played: " +
-            cChoice +
-            ". " +
-            outcome
-        );
-      }
-  
-      //counts the wins/losses/ties
-      if (outcome === "You win") {
-        roundWin++;
-      } else if (outcome === "You lose") {
-        roundLoss++;
-      }
-    }
-    console.log("Results: W: " + roundWin + " L: " + roundLoss);
-    if (roundWin >= 3) {
-      console.log("You have won the game!");
-    } else if (roundLoss >= 3) {
-      console.log("You have lost the game.");
-    }
+
+  let container = document.querySelector("#container");
+
+  container.addEventListener("click", (event) => {
+    let target = event.target;
+
+    switch(target.id) {
+      case "rock":
+        playRound("rock", getComputerChoice());
+        break;
+      case "paper":
+        playRound("paper", getComputerChoice());
+        break;
+      case "scissors":
+        playRound("scissors", getComputerChoice());
+        break;
+    };
+
+    tally.innerText = "Rounds played: " + round + "\n" +  "W: " + tallyW + " L: " + tallyL;
+  });
+
+  var round = 0;
+  var tallyW = 0;
+  var tallyL = 0;
+  var maxGames = 5;
+
+function updateRound(outcome) {
+  round = round + 1
+  if (outcome == "You win") {
+    tallyW = tallyW + 1;
+  } else if (outcome == "You lose") {
+    tallyL = tallyL + 1;
+  } else {
+    //draw
   }
-  game();
+  if (round >= maxGames) {
+    alert("You have won " + tallyW + " out of " + round + " games.");
+    round = 0;
+    tallyW = 0;
+    tallyL = 0;
+  }
+};
